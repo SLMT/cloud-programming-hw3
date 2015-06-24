@@ -19,7 +19,7 @@ public class ParsePages {
 
 		// Create a job configuration
 		JobConf conf = new JobConf(ParsePages.class);
-		conf.setJobName("SLMT's Page Rank Job - Step 1 - Phase 1");
+		conf.setJobName("SLMT's Page Rank Job - Step 1 - Phase 1 - ParsePages");
 
 		// Set up mapping
 		//conf.setMapperClass(BuildIndexMapper.class);
