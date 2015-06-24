@@ -9,6 +9,8 @@ import org.apache.hadoop.mapred.FileOutputFormat;
 import org.apache.hadoop.mapred.JobClient;
 import org.apache.hadoop.mapred.JobConf;
 
+import slmt.courses.cp.hw3.step1.NodeList;
+
 public class ParsePages {
 	public static void main(String[] args) throws Exception {
 		ParsePages wc = new ParsePages();
@@ -22,17 +24,17 @@ public class ParsePages {
 		conf.setJobName("SLMT's Page Rank Job - Step 1 - Phase 1 - ParsePages");
 
 		// Set up mapping
-		//conf.setMapperClass(BuildIndexMapper.class);
-		//conf.setMapOutputKeyClass(Text.class);
-		//conf.setMapOutputValueClass(TermFrequency.class);
+		conf.setMapperClass(ParsePagesMapper.class);
+		conf.setMapOutputKeyClass(Text.class);
+		conf.setMapOutputValueClass(Text.class);
 
 		// Set up partition
-		//conf.setPartitionerClass(BuildIndexPartitioner.class);
+		conf.setPartitionerClass(ParsePagesPartitioner.class);
 
 		// Set up reducing
-		//conf.setReducerClass(BuildIndexReducer.class);
-		//conf.setOutputKeyClass(Text.class);
-		//conf.setOutputValueClass(TermFrequencyList.class);
+		conf.setReducerClass(ParsePagesReducer.class);
+		conf.setOutputKeyClass(Text.class);
+		conf.setOutputValueClass(NodeList.class);
 
 		FileInputFormat.addInputPath(conf, new Path(inputPath));
 		FileOutputFormat.setOutputPath(conf, new Path(outputPath));
