@@ -42,6 +42,6 @@ public class NodeList implements Writable {
 			sb.append('\t');
 		}
 		
-		return sb.toString();
+		return sb.substring(0, sb.length() - 1).toString();
 	}
 }
