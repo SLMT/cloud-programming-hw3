@@ -28,9 +28,6 @@ public class ParsePages {
 		conf.setMapOutputKeyClass(Text.class);
 		conf.setMapOutputValueClass(Text.class);
 
-		// Set up partition
-		conf.setPartitionerClass(ParsePagesPartitioner.class);
-
 		// Set up reducing
 		conf.setReducerClass(ParsePagesReducer.class);
 		conf.setOutputKeyClass(Text.class);
