@@ -13,8 +13,8 @@ import org.apache.hadoop.mapred.Reducer;
 import org.apache.hadoop.mapred.Reporter;
 import org.apache.hadoop.mapred.RunningJob;
 
-import slmt.courses.cp.hw3.step1.NodeCounters;
-import slmt.courses.cp.hw3.step1.PageInfo;
+import slmt.courses.cp.hw3.NodeCounters;
+import slmt.courses.cp.hw3.PageInfo;
 
 public class BuildGraphReducer extends MapReduceBase implements
 		Reducer<Text, Text, Text, PageInfo> {

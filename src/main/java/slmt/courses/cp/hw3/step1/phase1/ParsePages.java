@@ -9,7 +9,7 @@ import org.apache.hadoop.mapred.FileOutputFormat;
 import org.apache.hadoop.mapred.JobClient;
 import org.apache.hadoop.mapred.JobConf;
 
-import slmt.courses.cp.hw3.step1.PageInfo;
+import slmt.courses.cp.hw3.PageInfo;
 
 public class ParsePages {
 	public static void main(String[] args) throws Exception {

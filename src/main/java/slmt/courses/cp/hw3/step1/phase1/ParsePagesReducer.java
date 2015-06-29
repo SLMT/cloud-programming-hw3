@@ -9,7 +9,7 @@ import org.apache.hadoop.mapred.OutputCollector;
 import org.apache.hadoop.mapred.Reducer;
 import org.apache.hadoop.mapred.Reporter;
 
-import slmt.courses.cp.hw3.step1.PageInfo;
+import slmt.courses.cp.hw3.PageInfo;
 
 public class ParsePagesReducer extends MapReduceBase implements
 		Reducer<Text, Text, Text, PageInfo> {

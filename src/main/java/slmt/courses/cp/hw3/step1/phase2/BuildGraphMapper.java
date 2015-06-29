@@ -9,8 +9,8 @@ import org.apache.hadoop.mapred.Mapper;
 import org.apache.hadoop.mapred.OutputCollector;
 import org.apache.hadoop.mapred.Reporter;
 
-import slmt.courses.cp.hw3.step1.NodeCounters;
-import slmt.courses.cp.hw3.step1.PageInfo;
+import slmt.courses.cp.hw3.NodeCounters;
+import slmt.courses.cp.hw3.PageInfo;
 
 public class BuildGraphMapper extends MapReduceBase implements
 		Mapper<LongWritable, Text, Text, Text> {

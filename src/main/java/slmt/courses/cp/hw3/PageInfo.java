@@ -1,10 +1,18 @@
-package slmt.courses.cp.hw3.step1;
+package slmt.courses.cp.hw3;
 
 import java.util.HashSet;
 import java.util.Set;
 import java.util.StringTokenizer;
 
 public class PageInfo {
+	
+	public static long rescaleToLong(double rank) {
+		return (long) (rank * 1000000);
+	}
+	
+	public static double scaleBackToDouble(long rank) {
+		return ((double) rank) / 1000000;
+	}
 
 	private String title; // It will not be printed in toString()
 	private double rank;
@@ -55,6 +63,10 @@ public class PageInfo {
 	
 	public void addOutLink(String link) {
 		outLinks.add(link);
+	}
+	
+	public void addOutLink(Set<String> links) {
+		outLinks.addAll(links);
 	}
 	
 	public Set<String> getOutlinks() {

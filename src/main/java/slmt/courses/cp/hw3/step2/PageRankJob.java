@@ -1,4 +1,4 @@
-package slmt.courses.cp.hw3.step1.phase2;
+package slmt.courses.cp.hw3.step2;
 
 import java.io.IOException;
 
@@ -11,25 +11,21 @@ import org.apache.hadoop.mapred.JobConf;
 
 import slmt.courses.cp.hw3.PageInfo;
 
-public class BuildGraph {
-	public static void main(String[] args) throws Exception {
-		BuildGraph wc = new BuildGraph();
-		wc.run(args[0], args[1]);
-	}
-
+public class PageRankJob {
+	
 	public void run(String inputPath, String outputPath) throws IOException {
 
 		// Create a job configuration
-		JobConf conf = new JobConf(BuildGraph.class);
-		conf.setJobName("SLMT's Page Rank Job - Step 1 - Phase 2 - Build Graph");
+		JobConf conf = new JobConf(PageRankJob.class);
+		conf.setJobName("SLMT's Page Rank Job - Step 2 - Calculating Page Rank");
 
 		// Set up mapping
-		conf.setMapperClass(BuildGraphMapper.class);
+		conf.setMapperClass(PageRankMapper.class);
 		conf.setMapOutputKeyClass(Text.class);
-		conf.setMapOutputValueClass(Text.class);
+		conf.setMapOutputValueClass(IntermediateOutput.class);
 
 		// Set up reducing
-		conf.setReducerClass(BuildGraphReducer.class);
+		conf.setReducerClass(PageRankReducer.class);
 		conf.setOutputKeyClass(Text.class);
 		conf.setOutputValueClass(PageInfo.class);
 
@@ -41,4 +37,5 @@ public class BuildGraph {
 
 		JobClient.runJob(conf);
 	}
+	
 }
