@@ -9,8 +9,7 @@ import org.apache.hadoop.mapred.FileOutputFormat;
 import org.apache.hadoop.mapred.JobClient;
 import org.apache.hadoop.mapred.JobConf;
 
-import slmt.courses.cp.hw3.step1.NodeList;
-import slmt.courses.cp.hw3.step1.NodeListReducer;
+import slmt.courses.cp.hw3.step1.PageInfo;
 
 public class ParsePages {
 	public static void main(String[] args) throws Exception {
@@ -30,9 +29,9 @@ public class ParsePages {
 		conf.setMapOutputValueClass(Text.class);
 
 		// Set up reducing
-		conf.setReducerClass(NodeListReducer.class);
+		conf.setReducerClass(ParsePagesReducer.class);
 		conf.setOutputKeyClass(Text.class);
-		conf.setOutputValueClass(NodeList.class);
+		conf.setOutputValueClass(PageInfo.class);
 
 		FileInputFormat.addInputPath(conf, new Path(inputPath));
 		FileOutputFormat.setOutputPath(conf, new Path(outputPath));

@@ -1,9 +1,6 @@
 package slmt.courses.cp.hw3.step1.phase2;
 
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.StringTokenizer;
 
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
@@ -13,6 +10,7 @@ import org.apache.hadoop.mapred.OutputCollector;
 import org.apache.hadoop.mapred.Reporter;
 
 import slmt.courses.cp.hw3.step1.NodeCounters;
+import slmt.courses.cp.hw3.step1.PageInfo;
 
 public class BuildGraphMapper extends MapReduceBase implements
 		Mapper<LongWritable, Text, Text, Text> {
@@ -21,28 +19,17 @@ public class BuildGraphMapper extends MapReduceBase implements
 			OutputCollector<Text, Text> outputCollector, Reporter reporter)
 			throws IOException {
 		// Parse the output from the previous phase
-		StringTokenizer tokenizer = new StringTokenizer(inputText.toString());
-		
-		// The first token must be the title
-		String title = tokenizer.nextToken();
-		
-		// The second token must be the page rank which is 0.0 for now
-		tokenizer.nextToken();
-		
-		// The rest of tokens are the linked nodes
-		Set<String> nodes = new HashSet<String>(); 
-		while (tokenizer.hasMoreTokens())
-			nodes.add(tokenizer.nextToken());
+		PageInfo page = new PageInfo(inputText.toString());
 		
 		// We only collect results when the title is in the node list
-		if (nodes.contains(title)) {
-			Text titleText = new Text(title);
-			for (String node : nodes)
+		if (page.hasSelfLink()) {
+			Text titleText = new Text(page.getTitle());
+			for (String node : page.getOutlinks())
 				outputCollector.collect(new Text(node), titleText);
 			
 			// Increment the global counter
 			reporter.getCounter(NodeCounters.NODE_COUNTER).increment(1);
 		} else
-			outputCollector.collect(new Text("No out link"), new Text(title));
+			outputCollector.collect(new Text("No out link"), new Text(page.getTitle()));
 	}
 }
