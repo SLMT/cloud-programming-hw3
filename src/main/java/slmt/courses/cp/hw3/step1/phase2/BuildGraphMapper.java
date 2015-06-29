@@ -12,6 +12,8 @@ import org.apache.hadoop.mapred.Mapper;
 import org.apache.hadoop.mapred.OutputCollector;
 import org.apache.hadoop.mapred.Reporter;
 
+import slmt.courses.cp.hw3.step1.NodeCounters;
+
 public class BuildGraphMapper extends MapReduceBase implements
 		Mapper<LongWritable, Text, Text, Text> {
 
@@ -24,6 +26,9 @@ public class BuildGraphMapper extends MapReduceBase implements
 		// The first token must be the title
 		String title = tokenizer.nextToken();
 		
+		// The second token must be the page rank which is 0.0 for now
+		tokenizer.nextToken();
+		
 		// The rest of tokens are the linked nodes
 		Set<String> nodes = new HashSet<String>(); 
 		while (tokenizer.hasMoreTokens())
@@ -34,6 +39,9 @@ public class BuildGraphMapper extends MapReduceBase implements
 			Text titleText = new Text(title);
 			for (String node : nodes)
 				outputCollector.collect(new Text(node), titleText);
+			
+			// Increment the global counter
+			reporter.getCounter(NodeCounters.NODE_COUNTER).increment(1);
 		} else
 			outputCollector.collect(new Text("No out link"), new Text(title));
 	}

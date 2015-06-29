@@ -15,9 +15,13 @@ public class NodeListReducer extends MapReduceBase implements
 	public void reduce(Text inputKey, Iterator<Text> inputVals,
 			OutputCollector<Text, NodeList> outputCollector, Reporter reporter)
 			throws IOException {
+		NodeList list = new NodeList();
+		
+		// Calculate the initial value of page rank
+		long nodeCount = reporter.getCounter(NodeCounters.NODE_COUNTER).getValue();
+		list.setPageRank(1.0 / (double) nodeCount);
 
 		// Construct the node list
-		NodeList list = new NodeList();
 		while (inputVals.hasNext())
 			list.addValue(inputVals.next().toString());
 
