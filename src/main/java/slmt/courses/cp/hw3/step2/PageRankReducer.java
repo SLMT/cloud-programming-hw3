@@ -13,7 +13,7 @@ import org.apache.hadoop.mapred.Reducer;
 import org.apache.hadoop.mapred.Reporter;
 import org.apache.hadoop.mapred.RunningJob;
 
-import slmt.courses.cp.hw3.NodeCounters;
+import slmt.courses.cp.hw3.Counters;
 import slmt.courses.cp.hw3.PageInfo;
 import slmt.courses.cp.hw3.step2.IntermediateOutput.DataType;
 
@@ -32,10 +32,10 @@ public class PageRankReducer extends MapReduceBase implements
 			RunningJob parentJob = client.getJob(JobID.forName(conf
 					.get("mapred.job.id")));
 			long counterVal = parentJob.getCounters().getCounter(
-					NodeCounters.DANGLING_RANKS);
+					Counters.DANGLING_RANKS);
 			danglingRanks = PageInfo.scaleBackToDouble(counterVal);
 			nodeCount = parentJob.getCounters().getCounter(
-					NodeCounters.NUM_NODES);
+					Counters.NUM_NODES);
 		} catch (IOException e) {
 			danglingRanks = 0.0;
 			nodeCount = -1;
@@ -63,7 +63,7 @@ public class PageRankReducer extends MapReduceBase implements
 		}
 		
 		// Calculate the first term
-		rankSum += RANDOM_JUMP_PROB / nodeCount;
+		rankSum += RANDOM_JUMP_PROB;
 		
 		// Calculate the second term
 		rankSum += (1 - RANDOM_JUMP_PROB) * secondTerm;
@@ -71,8 +71,11 @@ public class PageRankReducer extends MapReduceBase implements
 		// Calculate the third term
 		rankSum += (1 - RANDOM_JUMP_PROB) * (danglingRanks / nodeCount);
 
-		// Calculate the initial value of PageRank
+		// Save the rank
 		info.setRank(rankSum);
+		
+		// Debug: Accumulate total ranks
+		reporter.getCounter(Counters.TOTAL_RANKS).increment(PageInfo.rescaleToLong(rankSum));
 		
 		// Output the result
 		outputCollector.collect(inputKey, info);

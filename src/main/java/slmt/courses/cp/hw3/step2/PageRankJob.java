@@ -13,7 +13,7 @@ import slmt.courses.cp.hw3.PageInfo;
 
 public class PageRankJob {
 	
-	public void run(String inputPath, String outputPath) throws IOException {
+	public static void run(String inputPath, String outputPath) throws IOException {
 
 		// Create a job configuration
 		JobConf conf = new JobConf(PageRankJob.class);

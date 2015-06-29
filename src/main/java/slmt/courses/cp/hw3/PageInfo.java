@@ -6,12 +6,14 @@ import java.util.StringTokenizer;
 
 public class PageInfo {
 	
+	private static long SCALE_FACTOR = 1000000000;
+	
 	public static long rescaleToLong(double rank) {
-		return (long) (rank * 1000000);
+		return (long) (rank * SCALE_FACTOR);
 	}
 	
 	public static double scaleBackToDouble(long rank) {
-		return ((double) rank) / 1000000;
+		return ((double) rank) / SCALE_FACTOR;
 	}
 
 	private String title; // It will not be printed in toString()

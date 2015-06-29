@@ -12,6 +12,7 @@ public class PageRankCalculator {
 			
 			String input = args[0];
 			String output = args[1];
+			
 			new PageRankJob().run(input, output);
 			
 		} catch (IOException e) {

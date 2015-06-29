@@ -9,7 +9,7 @@ import org.apache.hadoop.mapred.Mapper;
 import org.apache.hadoop.mapred.OutputCollector;
 import org.apache.hadoop.mapred.Reporter;
 
-import slmt.courses.cp.hw3.NodeCounters;
+import slmt.courses.cp.hw3.Counters;
 import slmt.courses.cp.hw3.PageInfo;
 
 public class PageRankMapper extends MapReduceBase implements
@@ -26,21 +26,22 @@ public class PageRankMapper extends MapReduceBase implements
 		outputCollector.collect(titleText,
 				new IntermediateOutput(page.getOutlinks()));
 
-		// Calculate the second term of the page rank
-		double pageRank = page.getRank();
-		pageRank /= page.getOutlinks().size();
-
 		if (page.getOutlinks().isEmpty())
 			// Record the page rank if it is a dangling node
-			reporter.getCounter(NodeCounters.DANGLING_RANKS).increment(
-					PageInfo.rescaleToLong(pageRank));
-		else
+			reporter.getCounter(Counters.DANGLING_RANKS).increment(
+					PageInfo.rescaleToLong(page.getRank()));
+		else {
+			// Calculate the second term of the page rank
+			double pageRank = page.getRank();
+			pageRank /= page.getOutlinks().size();
+			
 			// Send the page rank to all linked nodes
 			for (String node : page.getOutlinks())
 				outputCollector.collect(new Text(node), new IntermediateOutput(
 						pageRank));
+		}
 
 		// Increment the global counter
-		reporter.getCounter(NodeCounters.NUM_NODES).increment(1);
+		reporter.getCounter(Counters.NUM_NODES).increment(1);
 	}
 }

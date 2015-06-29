@@ -1,4 +1,4 @@
-package slmt.courses.cp.hw3.step1.phase1;
+package slmt.courses.cp.hw3.step1.phase2;
 
 import java.io.IOException;
 
@@ -11,25 +11,24 @@ import org.apache.hadoop.mapred.JobConf;
 
 import slmt.courses.cp.hw3.PageInfo;
 
-public class ParsePages {
+public class BuildGraphJob {
 	public static void main(String[] args) throws Exception {
-		ParsePages wc = new ParsePages();
-		wc.run(args[0], args[1]);
+		BuildGraphJob.run(args[0], args[1]);
 	}
 
-	public void run(String inputPath, String outputPath) throws IOException {
+	public static void run(String inputPath, String outputPath) throws IOException {
 
 		// Create a job configuration
-		JobConf conf = new JobConf(ParsePages.class);
-		conf.setJobName("SLMT's Page Rank Job - Step 1 - Phase 1 - Parse Pages");
+		JobConf conf = new JobConf(BuildGraphJob.class);
+		conf.setJobName("SLMT's Page Rank Job - Step 1 - Phase 2 - Build Graph");
 
 		// Set up mapping
-		conf.setMapperClass(ParsePagesMapper.class);
+		conf.setMapperClass(BuildGraphMapper.class);
 		conf.setMapOutputKeyClass(Text.class);
 		conf.setMapOutputValueClass(Text.class);
 
 		// Set up reducing
-		conf.setReducerClass(ParsePagesReducer.class);
+		conf.setReducerClass(BuildGraphReducer.class);
 		conf.setOutputKeyClass(Text.class);
 		conf.setOutputValueClass(PageInfo.class);
 

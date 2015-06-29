@@ -9,7 +9,6 @@ import org.apache.hadoop.mapred.Mapper;
 import org.apache.hadoop.mapred.OutputCollector;
 import org.apache.hadoop.mapred.Reporter;
 
-import slmt.courses.cp.hw3.NodeCounters;
 import slmt.courses.cp.hw3.PageInfo;
 
 public class BuildGraphMapper extends MapReduceBase implements
@@ -23,14 +22,9 @@ public class BuildGraphMapper extends MapReduceBase implements
 		
 		// We only collect results when the title is in the node list
 		if (page.hasSelfLink()) {
-			page.deleteSelfLink();
 			Text titleText = new Text(page.getTitle());
 			for (String node : page.getOutlinks())
-				if (!node.equals(page.getTitle()))
-					outputCollector.collect(new Text(node), titleText);
-			
-			// Increment the global counter
-			reporter.getCounter(NodeCounters.NUM_NODES).increment(1);
+				outputCollector.collect(new Text(node), titleText);
 		} else
 			outputCollector.collect(new Text("No out link"), new Text(page.getTitle()));
 	}
