@@ -23,7 +23,7 @@ public class PageInfo {
 	 *            the output text from the reducer
 	 */
 	public PageInfo(String text) {
-		StringTokenizer tokenizer = new StringTokenizer(text);
+		StringTokenizer tokenizer = new StringTokenizer(text, "\t");
 
 		// The first token must be the title
 		title = tokenizer.nextToken();

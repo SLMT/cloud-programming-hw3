@@ -28,7 +28,7 @@ public class BuildGraphMapper extends MapReduceBase implements
 				outputCollector.collect(new Text(node), titleText);
 			
 			// Increment the global counter
-			reporter.getCounter(NodeCounters.NODE_COUNTER).increment(1);
+			reporter.getCounter(NodeCounters.NUM_NODES).increment(1);
 		} else
 			outputCollector.collect(new Text("No out link"), new Text(page.getTitle()));
 	}
