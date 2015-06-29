@@ -23,9 +23,11 @@ public class BuildGraphMapper extends MapReduceBase implements
 		
 		// We only collect results when the title is in the node list
 		if (page.hasSelfLink()) {
+			page.deleteSelfLink();
 			Text titleText = new Text(page.getTitle());
 			for (String node : page.getOutlinks())
-				outputCollector.collect(new Text(node), titleText);
+				if (!node.equals(page.getTitle()))
+					outputCollector.collect(new Text(node), titleText);
 			
 			// Increment the global counter
 			reporter.getCounter(NodeCounters.NUM_NODES).increment(1);

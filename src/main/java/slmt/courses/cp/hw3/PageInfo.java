@@ -77,6 +77,10 @@ public class PageInfo {
 		return outLinks.contains(title);
 	}
 	
+	public void deleteSelfLink() {
+		outLinks.remove(title);
+	}
+	
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		
