@@ -34,12 +34,16 @@ public class PageRankMapper extends MapReduceBase implements
 			// Calculate the second term of the page rank
 			double pageRank = page.getRank();
 			pageRank /= page.getOutlinks().size();
-			
+
 			// Send the page rank to all linked nodes
 			for (String node : page.getOutlinks())
 				outputCollector.collect(new Text(node), new IntermediateOutput(
-						pageRank));
+						false, pageRank));
 		}
+
+		// Pass the current PageRank to the reducer
+		outputCollector.collect(titleText,
+				new IntermediateOutput(true, page.getRank()));
 
 		// Increment the global counter
 		reporter.getCounter(Counters.NUM_NODES).increment(1);

@@ -50,6 +50,7 @@ public class PageRankReducer extends MapReduceBase implements
 		// Initialize variables
 		PageInfo info = new PageInfo();
 		double rankSum = 0.0;
+		double lastRank = 0.0;
 		
 		// Retrieve all results
 		double secondTerm = 0.0;
@@ -60,6 +61,8 @@ public class PageRankReducer extends MapReduceBase implements
 				info.addOutLink(result.getOutLinks());
 			else if (result.getDataType() == DataType.PAGE_RANK)
 				secondTerm += result.getPageRank();
+			else if (result.getDataType() == DataType.LAST_RANK)
+				lastRank = result.getPageRank();
 		}
 		
 		// Calculate the first term
@@ -73,6 +76,7 @@ public class PageRankReducer extends MapReduceBase implements
 
 		// Save the rank
 		info.setRank(rankSum);
+		info.setRankDiff(Math.abs(rankSum - lastRank));
 		
 		// Debug: Accumulate total ranks
 		reporter.getCounter(Counters.TOTAL_RANKS).increment(PageInfo.rescaleToLong(rankSum));

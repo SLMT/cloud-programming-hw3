@@ -11,7 +11,7 @@ import org.apache.hadoop.io.Writable;
 public class IntermediateOutput implements Writable {
 	
 	public static enum DataType {
-		NODE_LIST, PAGE_RANK
+		NODE_LIST, PAGE_RANK, LAST_RANK
 	}
 	
 	private DataType dataType;
@@ -30,8 +30,11 @@ public class IntermediateOutput implements Writable {
 		this.outLinks = outLinks;
 	}
 	
-	public IntermediateOutput(double pageRank) {
-		this.dataType = DataType.PAGE_RANK;
+	public IntermediateOutput(boolean isLastRank, double pageRank) {
+		if (isLastRank)
+			this.dataType = DataType.LAST_RANK;
+		else
+			this.dataType = DataType.PAGE_RANK;
 		this.pageRank = pageRank;
 	}
 
@@ -48,7 +51,7 @@ public class IntermediateOutput implements Writable {
 			// Output each node
 			for (int i = 0; i < size; i++)
 				outLinks.add(in.readUTF());
-		} else if (dataType == DataType.PAGE_RANK) {
+		} else {
 			pageRank = in.readDouble();
 		}
 	}
@@ -65,7 +68,7 @@ public class IntermediateOutput implements Writable {
 			// Output each node
 			for (String node : outLinks)
 				out.writeUTF(node);
-		} else if (dataType == DataType.PAGE_RANK) {
+		} else {
 			out.writeDouble(pageRank);
 		}
 	}
